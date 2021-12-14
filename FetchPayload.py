@@ -81,7 +81,7 @@ print("[+] seeing if attacker left behind un-compile payload %s" % code_base + j
 if get_remote_payload(code_base, java_payload):
     payload_found = True
 
-print("[+] trying to fetch compiled payload %s" % code_base + java_payload)
+print("[+] trying to fetch compiled payload %s" % code_base + class_payload)
 if get_remote_payload(code_base, class_payload):
     payload_found = True
 

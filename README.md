@@ -1,6 +1,9 @@
 # Log4jTools
 Tools for investigating Log4j CVE-2021-44228
 
+## Bug explanation and Demo
+https://www.youtube.com/watch?v=0-abhd-CLwQ
+
 ## FetchPayload.py (Get java payload from ldap path provided in JNDI lookup).
 Requirements: curl (system), requests (python)
 

@@ -42,7 +42,7 @@ class Log4jHandler(asyncore.dispatcher_with_send):
         self.handle_close()
         self.data = self.data.replace(b'\r', b'')
         for line in self.data.split(b'\n'):
-            line = urllib.parse.unquote(line.decode('utf-8', 'ignore')))
+            line = urllib.parse.unquote(line.decode('utf-8', 'ignore'))
             if line.find('${') != -1:
                 self.logger.info(line)
 

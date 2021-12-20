@@ -77,7 +77,7 @@ payload_found = False
 
 print("[+] exploit payload: %s" % code_base + class_payload)
 
-print("[+] seeing if attacker left behind un-compile payload %s" % code_base + java_payload)
+print("[+] seeing if attacker left behind un-compiled payload %s" % code_base + java_payload)
 if get_remote_payload(code_base, java_payload):
     payload_found = True
 

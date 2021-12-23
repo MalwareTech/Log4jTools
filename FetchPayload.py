@@ -2,7 +2,7 @@
 import os
 import sys
 import requests
-
+import hashlib
 
 def save_file(file_name, file_data):
     with open(file_name, 'wb') as f:
@@ -32,8 +32,10 @@ def get_remote_payload(base_url, payload_name):
     try:
         response = requests.get(base_url + payload_name)
         if response.status_code == 200 and len(response.content):
-            save_file(payload_name + '_', response.content)
-            print("[+] found payload and saved to file %s_" % payload_name)
+            hash_value = hashlib.sha256((base_url + payload_name)).hexdigest()
+            file_name = payload_name + '_' + hash_value
+            save_file(file_name, response.content)
+            print("[+] found payload and saved to file %s" % file_name)
             return True
 
     except Exception as e:
@@ -48,6 +50,7 @@ if __name__ == '__main__':
         raise RuntimeError('run: python FetchPayload.py ldap://server/path')
 
 print("[+] getting object from %s" % sys.argv[1])
+
 
 # probably need some error handling, will look into this later
 stream = os.popen("curl -s " + sys.argv[1])

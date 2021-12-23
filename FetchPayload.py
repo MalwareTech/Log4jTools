@@ -34,22 +34,23 @@ def get_remote_payload(base_url, payload_name):
         if response.status_code == 200 and len(response.content):
             hash_value = hashlib.sha256((base_url + payload_name)).hexdigest()
             file_name = payload_name + '_' + hash_value
+            print ("Hashing string %s" % base_url + payload_name)
             save_file(file_name, response.content)
-            print("[+] found payload and saved to file %s" % file_name)
+            print("[+] Found payload and saved to file %s" % file_name)
             return True
 
     except Exception as e:
-        print("[x] request to url %s failed, exception: %s" % (base_url+payload_name, e))
+        print("[x] Request to url %s failed, exception: %s" % (base_url+payload_name, e))
 
-    print("[x] failed to find payload %s" % payload_name)
+    print("[x] Failed to find payload %s" % payload_name)
     return False
 
 
 if __name__ == '__main__':
     if len(sys.argv) <= 1:
-        raise RuntimeError('run: python FetchPayload.py ldap://server/path')
+        raise RuntimeError('Usage: ./FetchPayload.py ldap://server/path')
 
-print("[+] getting object from %s" % sys.argv[1])
+print("[+] Getting object from %s" % sys.argv[1])
 
 
 # probably need some error handling, will look into this later
@@ -70,24 +71,24 @@ for part in parts:
         class_name = temp
 
 if not code_base:
-    raise RuntimeError("failed to find code base")
+    raise RuntimeError("Failed to find code base.")
 
 if not class_name:
-    raise RuntimeError("failed to find class name")
+    raise RuntimeError("Failed to find class name.")
 
 class_payload = class_name + '.class'
 java_payload = class_name + '.java'
 payload_found = False
 
-print("[+] exploit payload: %s" % code_base + class_payload)
+print("[+] Exploit payload: %s" % code_base + class_payload)
 
-print("[+] seeing if attacker left behind un-compiled payload %s" % code_base + java_payload)
+print("[+] Checking if attacker left behind source payload %s" % code_base + java_payload)
 if get_remote_payload(code_base, java_payload):
     payload_found = True
 
-print("[+] trying to fetch compiled payload %s" % code_base + class_payload)
+print("[+] Trying to fetch compiled payload %s" % code_base + class_payload)
 if get_remote_payload(code_base, class_payload):
     payload_found = True
 
 if not payload_found:
-    print("[x] couldn't find any payloads on the server")
+    print("[x] Couldn't find any payloads on the server")
